@@ -74,6 +74,12 @@
             margin-top: 10px;
             min-height: 30px;
             animation: fadeIn 0.5s ease-in-out;
+            padding: 15px;
+            border: 2px dashed #d63447;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            display: inline-block;
+            max-width: 90%;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -87,6 +93,11 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-3px); }
             75% { transform: translateX(3px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -104,8 +115,8 @@
     <!-- Include EmailJS library -->
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        // Initialize EmailJS with your publishable key
-        emailjs.init('q9BY7w1lcDALl8FlK'); // Replace with your actual Publishable Key
+        // Initialize EmailJS with your new publishable key
+        emailjs.init('x2uyKL4B66Pyf6Bxg'); // This is the updated publishable key
 
         const yesButton = document.getElementById('yesButton');
         const noButton = document.getElementById('noButton');
@@ -121,7 +132,11 @@
             "You're breaking my heart! 💔",
             "Please say yes! 🥺",
             "I'll keep asking! 💖",
-            "Okay, last chance! 🥺"
+            "Okay, last chance! 🥺",
+            "I can be the best Valentine ever! 💖",
+            "You're the one I want! 💕",
+            "Don’t leave me hanging! 😢",
+            "Please make me smile! 😄"
         ];
         let messageIndex = 0;
 
@@ -132,7 +147,12 @@
         });
 
         noButton.addEventListener('click', () => {
-            if (messageIndex < messages.length) {
+            if (messageIndex === 0) {
+                messageContainer.innerHTML = "Please don't say no! 🥺💖";
+                messageContainer.style.animation = "pulse 1s infinite";
+                noButton.style.animation = "shake 0.3s ease-in-out";
+                messageIndex++;
+            } else if (messageIndex < messages.length) {
                 messageContainer.innerHTML = messages[messageIndex];
                 messageContainer.style.animation = "bounce 0.5s ease-in-out";
                 noButton.style.animation = "shake 0.3s ease-in-out";
@@ -145,11 +165,12 @@
 
         function sendEmailNotification() {
             const templateParams = {
-                to_email: 'houryou676@gmail.com', // Recipient email
+                to_email: 'houryou676@gmail.com', // Recipient email (replace with your email if needed)
                 subject: "Valentine's Response",
                 message: "She said YES! 💖" // Custom message
             };
 
+            // Sending email using EmailJS
             emailjs.send('service_1s0n2t4', 'template_exdhe8o', templateParams)
                 .then(function(response) {
                     console.log('Email sent successfully', response);
