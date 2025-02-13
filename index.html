@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Please Click Here</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: fadeIn 1.5s ease-in-out;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #d63447;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        #yesButton {
+            background: #4CAF50;
+            color: white;
+        }
+        #yesButton:hover {
+            background: #45a049;
+        }
+        #noButton {
+            background: #f44336;
+            color: white;
+        }
+        #noButton:hover {
+            background: #e53935;
+        }
+        #messageContainer {
+            font-size: 1.2rem;
+            color: #d63447;
+            margin-top: 10px;
+            min-height: 30px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Will You Be My Valentine? 💖</h1>
+        <p>You mean the world to me. Please say yes!</p>
+        <div id="messageContainer"></div>
+        <div class="buttons">
+            <button id="yesButton">Yes</button>
+            <button id="noButton">No</button>
+        </div>
+    </div>
+
+    <!-- Include EmailJS library -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS with your publishable key
+        emailjs.init('q9BY7w1lcDALl8FlK'); // Replace with your actual Publishable Key
+
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const messageContainer = document.getElementById('messageContainer');
+
+        const messages = [
+            "Are you sure? 🥺",
+            "Really sure? 💔",
+            "Think again! 😢",
+            "I have a cute heart! 💖",
+            "Don't do this to me! 🥺",
+            "I'm gonna cry... 😭",
+            "You're breaking my heart! 💔",
+            "Please say yes! 🥺",
+            "I'll keep asking! 💖",
+            "Okay, last chance! 🥺"
+        ];
+        let messageIndex = 0;
+
+        yesButton.addEventListener('click', () => {
+            messageContainer.innerHTML = "Yay! You made me the happiest person alive! 💖";
+            noButton.disabled = true; // Disable the "No" button after "Yes" is clicked
+            sendEmailNotification(); // Send an email when the user clicks "Yes"
+        });
+
+        noButton.addEventListener('click', () => {
+            if (messageIndex < messages.length) {
+                messageContainer.innerHTML = messages[messageIndex];
+                messageContainer.style.animation = "bounce 0.5s ease-in-out";
+                noButton.style.animation = "shake 0.3s ease-in-out";
+                messageIndex++;
+            } else {
+                messageContainer.innerHTML = "Okay, I'll keep trying! 💖";
+                messageIndex = 0;
+            }
+        });
+
+        function sendEmailNotification() {
+            const templateParams = {
+                to_email: 'houryou676@gmail.com', // Recipient email
+                subject: "Valentine's Response",
+                message: "She said YES! 💖" // Custom message
+            };
+
+            emailjs.send('service_1s0n2t4', 'template_exdhe8o', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully', response);
+                }, function(error) {
+                    console.error('Error sending email', error);
+                });
+        }
+    </script>
+</body>
+</html>
